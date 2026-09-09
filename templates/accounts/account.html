@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-100 px-4 py-10">
+  <div class="mx-auto max-w-3xl rounded-2xl bg-white p-8 shadow-lg ring-1 ring-slate-200">
+    <div class="mb-6 flex items-center justify-between">
+      <div>
+        <p class="text-sm uppercase tracking-wide text-slate-500">Account</p>
+        <h1 class="mt-2 text-3xl font-bold text-slate-900">Welcome, {{ user.name|default:user.email }}</h1>
+      </div>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Log out</button>
+      </form>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Name</p>
+        <p class="mt-2 text-lg font-medium text-slate-900">{{ user.name|default:'Not set' }}</p>
+      </div>
+      <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p>
+        <p class="mt-2 text-lg font-medium text-slate-900">{{ user.email }}</p>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a href="{% url 'settings' %}" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">Edit profile</a>
+      <a href="{% url 'change_password' %}" class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Change password</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

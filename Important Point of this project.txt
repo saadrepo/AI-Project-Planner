@@ -1,0 +1,7 @@
+docker compose up -d --force-recreate
+
+docker compose exec web python -c "import os; os.environ.setdefault('DJANGO_SETTINGS_MODULE','config.settings.development'); import django; django.setup(); from django.conf import settings; from django.core.mail import send_mail; print(send_mail('SMTP Test','ProjectPilot AI SMTP test.',settings.DEFAULT_FROM_EMAIL,[settings.DEFAULT_FROM_EMAIL]))"
+
+EMAIL_HOST = 192.168.0.128
+EMAIL_PORT = 7025
+DEFAULT_FROM_EMAIL = saadMGMT@my.web.pk.

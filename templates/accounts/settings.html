@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-100 px-4 py-10">
+  <div class="mx-auto max-w-xl rounded-2xl bg-white p-8 shadow-lg ring-1 ring-slate-200">
+    <h1 class="text-2xl font-bold text-slate-900">Account settings</h1>
+    <p class="mt-2 text-sm text-slate-600">Update your public profile and email.</p>
+
+    <form method="post" class="mt-6 space-y-5" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div>
+        <label for="id_name" class="mb-1 block text-sm font-medium text-slate-700">Name</label>
+        {{ form.name }}
+        {% if form.name.errors %}<p class="mt-1 text-xs text-red-600">{{ form.name.errors|join:', ' }}</p>{% endif %}
+      </div>
+
+      <div>
+        <label for="id_email" class="mb-1 block text-sm font-medium text-slate-700">Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}<p class="mt-1 text-xs text-red-600">{{ form.email.errors|join:', ' }}</p>{% endif %}
+      </div>
+
+      <div>
+        <label for="id_job_title" class="mb-1 block text-sm font-medium text-slate-700">Job function</label>
+        {{ form.job_title }}
+        {% if form.job_title.errors %}<p class="mt-1 text-xs text-red-600">{{ form.job_title.errors|join:', ' }}</p>{% endif %}
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">Save changes</button>
+        <a href="{% url 'account' %}" class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

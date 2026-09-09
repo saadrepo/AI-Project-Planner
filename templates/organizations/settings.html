@@ -1,0 +1,38 @@
+{% extends 'organizations/base.html' %}
+
+{% block title %}Organization settings{% endblock %}
+
+{% block org_content %}
+<div class="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+    <p class="text-sm font-medium uppercase tracking-wide text-slate-500">Settings</p>
+    <h1 class="mt-2 text-3xl font-bold text-slate-900">{{ organization.name }}</h1>
+
+    <form method="post" class="mt-6 space-y-5">
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{{ form.non_field_errors }}</div>{% endif %}
+
+        <div>
+            <label for="id_name" class="mb-1 block text-sm font-medium text-slate-700">Name</label>
+            {{ form.name }}
+            {% if form.name.errors %}<p class="mt-1 text-xs text-red-600">{{ form.name.errors|join:', ' }}</p>{% endif %}
+        </div>
+
+        <div>
+            <label for="id_slug" class="mb-1 block text-sm font-medium text-slate-700">Slug</label>
+            {{ form.slug }}
+            {% if form.slug.errors %}<p class="mt-1 text-xs text-red-600">{{ form.slug.errors|join:', ' }}</p>{% endif %}
+        </div>
+
+        <div>
+            <label for="id_description" class="mb-1 block text-sm font-medium text-slate-700">Description</label>
+            {{ form.description }}
+            {% if form.description.errors %}<p class="mt-1 text-xs text-red-600">{{ form.description.errors|join:', ' }}</p>{% endif %}
+        </div>
+
+        <div class="flex gap-3 pt-2">
+            <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800">Save changes</button>
+            <a href="{% url 'organization_detail' slug=organization.slug %}" class="rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">Back</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

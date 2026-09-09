@@ -1,0 +1,46 @@
+{% extends 'organizations/base.html' %}
+
+{% block title %}Assign Registered User{% endblock %}
+
+{% block org_content %}
+<div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+            <p class="text-sm font-medium uppercase tracking-wide text-slate-500">Owner controls</p>
+            <h1 class="mt-2 text-3xl font-bold text-slate-900">Assign registered user</h1>
+            <p class="mt-2 text-sm text-slate-600">Add an existing account to {{ organization.name }} and choose its organization role.</p>
+        </div>
+        <a href="{% url 'organization_members' slug=organization.slug %}" class="text-sm font-semibold text-slate-700 hover:underline">Back to members</a>
+    </div>
+
+    <div class="mt-6 space-y-3">
+        {% for user in users %}
+        <div class="flex flex-col gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 md:flex-row md:items-center md:justify-between">
+            <div>
+                <p class="font-semibold text-slate-900">{{ user.name|default:user.email }}</p>
+                <p class="text-sm text-slate-500">{{ user.email }}</p>
+            </div>
+            {% if user.id == request.user.id %}
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">OWNER</span>
+            {% elif user.organization_membership %}
+            <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">{{ user.organization_membership.role }}</span>
+            {% else %}
+            <form method="post" class="flex flex-wrap items-center gap-2">
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <select name="role" class="app-field w-auto min-w-40 py-2 text-sm">
+                    <option value="ADMIN">Admin</option>
+                    <option value="PROJECT_MANAGER">Project Manager</option>
+                    <option value="MEMBER" selected>Member</option>
+                    <option value="VIEWER">Viewer</option>
+                </select>
+                <button type="submit" class="rounded-lg bg-slate-900 px-3 py-2 text-sm font-semibold text-white">Assign</button>
+            </form>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p class="text-sm text-slate-500">No registered users found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

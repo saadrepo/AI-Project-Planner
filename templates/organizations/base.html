@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-100">
+    <nav class="border-b border-slate-200 bg-white/80 backdrop-blur-sm">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
+            <div class="flex items-center gap-4">
+                <a href="{% url 'account' %}" class="text-lg font-bold text-slate-900">ProjectPilot AI</a>
+                <div class="hidden items-center gap-3 md:flex">
+                    <a href="{% url 'organization_list' %}" class="text-sm font-medium text-slate-600 hover:text-slate-900">Organizations</a>
+                    {% if active_organization %}
+                    <a href="{% url 'organization_detail' slug=active_organization.slug %}" class="text-sm font-medium text-slate-600 hover:text-slate-900">{{ active_organization.name }}</a>
+                    <a href="{% url 'organization_members' slug=active_organization.slug %}" class="text-sm font-medium text-slate-600 hover:text-slate-900">Members</a>
+                    {% if active_organization_membership.role == 'OWNER' or active_organization_membership.role == 'ADMIN' %}
+                    <a href="{% url 'organization_invitations' slug=active_organization.slug %}" class="text-sm font-medium text-slate-600 hover:text-slate-900">Invitations</a>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Logout</button></form>
+            </div>
+        </div>
+    </nav>
+    {% if messages %}
+    <div class="mx-auto max-w-7xl px-4 pt-5">
+        {% for message in messages %}
+        <div class="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <main class="mx-auto max-w-7xl px-4 py-8">{% block org_content %}{% endblock %}</main>
+</div>
+{% endblock %}

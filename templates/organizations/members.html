@@ -1,0 +1,58 @@
+{% extends 'organizations/base.html' %}
+
+{% block title %}Members{% endblock %}
+
+{% block org_content %}
+<div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="mb-6 flex items-center justify-between gap-4">
+        <div>
+            <p class="text-sm font-medium uppercase tracking-wide text-slate-500">Team</p>
+            <h1 class="mt-2 text-3xl font-bold text-slate-900">{{ organization.name }} members</h1>
+        </div>
+        {% if membership.role == 'OWNER' or membership.role == 'ADMIN' %}
+        <a href="{% url 'organization_invitations' slug=organization.slug %}" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">Invite member</a>
+        {% endif %}
+        {% if membership.role == 'OWNER' %}
+        <a href="{% url 'organization_member_assign' slug=organization.slug %}" class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Assign registered user</a>
+        {% endif %}
+    </div>
+
+    <div class="space-y-3">
+        {% for member in members %}
+        <div class="flex flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 md:flex-row md:items-center md:justify-between">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">{{ member.user.name|default:member.user.email|slice:':1'|upper }}</div>
+                <div>
+                    <div class="font-semibold text-slate-900">{{ member.user.name|default:member.user.email }}</div>
+                    <div class="text-sm text-slate-500">{{ member.user.email }}</div>
+                    <div class="text-xs text-slate-500">{{ member.user.job_title|default:'Job function not specified' }}</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                {% if member.role != 'OWNER' and membership.role == 'OWNER' or member.role != 'OWNER' and membership.role == 'ADMIN' %}
+                <form method="post" action="{% url 'member_role' slug=organization.slug member_id=member.id %}">
+                    {% csrf_token %}
+                    <label for="role-{{ member.id }}" class="sr-only">Change role for {{ member.user.email }}</label>
+                    <select id="role-{{ member.id }}" name="role" class="rounded-lg border border-slate-300 px-2 py-1 text-xs font-semibold text-slate-700">
+                        <option value="ADMIN"{% if member.role == 'ADMIN' %} selected{% endif %}>Admin</option>
+                        <option value="PROJECT_MANAGER"{% if member.role == 'PROJECT_MANAGER' %} selected{% endif %}>Project Manager</option>
+                        <option value="MEMBER"{% if member.role == 'MEMBER' %} selected{% endif %}>Member</option>
+                        <option value="VIEWER"{% if member.role == 'VIEWER' %} selected{% endif %}>Viewer</option>
+                    </select>
+                    <button type="submit" class="rounded-lg border border-slate-300 px-2 py-1 text-xs font-medium text-slate-700">Save</button>
+                </form>
+                {% else %}
+                <span class="rounded-full bg-slate-200 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">{{ member.role }}</span>
+                {% endif %}
+                <span class="text-sm text-slate-500">Joined {{ member.joined_at|date:'M d, Y' }}</span>
+                {% if member.user != request.user %}
+                <form method="post" action="{% url 'member_remove' slug=organization.slug member_id=member.id %}">{% csrf_token %}<button type="submit" class="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50">Remove</button></form>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-sm text-slate-500">No active members yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

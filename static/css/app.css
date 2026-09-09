@@ -1,0 +1,54 @@
+ :root {
+	--form-page: #eef4ff;
+	--form-surface: #f8fbff;
+	--form-border: #cfdef2;
+	--form-border-focus: #91acd2;
+	--form-text: #1d3557;
+}
+
+body {
+	background: var(--form-page);
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea,
+.app-field {
+	width: 100%;
+	border: 1px solid var(--form-border);
+	border-radius: 10px;
+	background: var(--form-surface);
+	color: var(--form-text);
+	padding: 0.7rem 0.85rem;
+	box-shadow: inset 0 1px 2px rgb(50 83 125 / 4%);
+	transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select {
+	min-height: 46px;
+}
+
+textarea {
+	min-height: 108px;
+	resize: vertical;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):focus,
+select:focus,
+textarea:focus,
+.app-field:focus {
+	border-color: var(--form-border-focus);
+	outline: none;
+	background: #ffffff;
+	box-shadow: 0 0 0 3px rgb(145 172 210 / 22%);
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: #8ba0bd;
+}
+
+label {
+	color: var(--form-text);
+}

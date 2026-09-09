@@ -1,0 +1,14 @@
+Hi,
+
+You have been invited to join {{ organization.name }} on ProjectPilot AI.
+
+Invited by: {{ invited_by.name|default:invited_by.email }}
+Role: {{ invitation.role }}
+
+Accept your invitation here:
+{{ accept_url }}
+
+This invitation expires on {{ invitation.expires_at|date:"M d, Y H:i e" }}.
+
+Thanks,
+ProjectPilot AI

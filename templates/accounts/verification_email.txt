@@ -1,0 +1,9 @@
+Hi {{ user.name|default:user.email }},
+
+Please verify your ProjectPilot AI email address by visiting the link below:
+{{ verification_url }}
+
+If you did not create this account, you can ignore this email.
+
+Thanks,
+ProjectPilot AI
