@@ -7,7 +7,13 @@ from .models import Organization, OrganizationInvitation, OrganizationMember, Or
 
 ALLOWED_MEMBER_ROLES = tuple(
     (role.value, role.label)
-    for role in OrganizationMemberRole
+    for role in (
+        OrganizationMemberRole.ADMIN,
+        OrganizationMemberRole.PROJECT_MANAGER,
+        OrganizationMemberRole.MEMBER,
+        OrganizationMemberRole.QA,
+        OrganizationMemberRole.VIEWER,
+    )
     if role != OrganizationMemberRole.OWNER
 )
 

@@ -134,7 +134,9 @@ class OrganizationWorkflowTests(TestCase):
         self.client.force_login(self.owner)
         response = self.client.get(f"/organizations/{self.org.slug}/members/")
         self.assertContains(response, "Change role for role-visible@example.com")
-        self.assertContains(response, "Project Manager")
+        self.assertContains(response, "Team Lead")
+        self.assertContains(response, "Developer")
+        self.assertContains(response, "QA")
         self.assertContains(response, "Viewer")
 
     def test_owner_can_assign_registered_user_to_organization(self):

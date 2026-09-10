@@ -11,8 +11,8 @@
                 <h1 class="mt-2 text-3xl font-bold text-slate-900">{{ organization.name }}</h1>
             </div>
             <div class="flex gap-2">
-                <a href="{% url 'organization_members' slug=organization.slug %}" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Team</a>
-                <a href="{% url 'organization_teams' slug=organization.slug %}" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Teams</a>
+                <a href="{% url 'organization_members' slug=organization.slug %}" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Members</a>
+                <a href="{% url 'organization_teams' slug=organization.slug %}" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Add teams</a>
                 {% if membership.role == 'OWNER' or membership.role == 'ADMIN' %}
                 <a href="{% url 'organization_invitations' slug=organization.slug %}" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Invitations</a>
                 <a href="{% url 'organization_settings' slug=organization.slug %}" class="rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800">Settings</a>

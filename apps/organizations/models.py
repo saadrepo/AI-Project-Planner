@@ -50,8 +50,9 @@ class Organization(BaseModel):
 class OrganizationMemberRole(models.TextChoices):
     OWNER = "OWNER", "Owner"
     ADMIN = "ADMIN", "Admin"
-    PROJECT_MANAGER = "PROJECT_MANAGER", "Project Manager"
-    MEMBER = "MEMBER", "Member"
+    PROJECT_MANAGER = "PROJECT_MANAGER", "Team Lead"
+    MEMBER = "MEMBER", "Developer"
+    QA = "QA", "QA"
     VIEWER = "VIEWER", "Viewer"
 
 
